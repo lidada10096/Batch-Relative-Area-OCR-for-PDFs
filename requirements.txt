@@ -1,0 +1,28 @@
+# 项目依赖清单
+# Python 3.10+ 兼容
+
+# 图像处理库
+opencv-python>=4.7.0  # OpenCV用于图像处理
+Pillow>=9.0.0  # PIL用于图像处理
+numpy>=1.21.0  # 数值计算库
+
+# OCR相关库
+paddleocr>=2.7.0  # OCR识别库
+# paddleocr依赖paddlepaddle，会自动安装兼容版本
+
+# PDF处理库
+pdf2image>=1.16.0  # PDF转图像
+# pdf2image需要系统级依赖poppler-utils
+# Windows: 下载poppler并添加到PATH，或放在项目目录下
+# Linux: sudo apt-get install poppler-utils
+# Mac: brew install poppler
+
+# 数据处理库
+pandas>=1.5.0  # 数据处理和Excel输出
+openpyxl>=3.0.0  # pandas Excel输出依赖
+
+# 系统资源监控
+psutil>=5.9.0  # 获取系统CPU和内存信息
+
+# 进度显示
+tqdm>=4.64.0  # 终端进度条
