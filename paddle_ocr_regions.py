@@ -125,15 +125,15 @@ def load_boxes_from_config():
                 boxes = config.get("boxes", [])
                 saved_dpi = config.get("dpi", DPI)
                 if boxes and saved_dpi == DPI:
-                    print(f"✓ 检测到已存在的配置文件")
+                    print(f"[OK] 检测到已存在的配置文件")
                     print(f"  - 文件: {config_file}")
                     print(f"  - 已保存 {len(boxes)} 个图框")
                     print(f"  - DPI设置: {saved_dpi}")
                     return boxes
                 elif boxes:
-                    print(f"⚠ 配置文件DPI不匹配 ({saved_dpi} != {DPI})，将重新设置")
+                    print(f"[WARN] 配置文件DPI不匹配 ({saved_dpi} != {DPI})，将重新设置")
         except Exception as e:
-            print(f"⚠ 读取配置文件失败: {str(e)}，将重新设置")
+            print(f"[WARN] 读取配置文件失败: {str(e)}，将重新设置")
     return None
 
 def draw_boxes():
@@ -257,8 +257,7 @@ class ThreadSafeProgress:
 
 # ---------------- 单进程OCR处理函数（用于多进程池） ----------------
 def ocr_page_worker(page_idx, pdf_file, boxes):
-    # 每个进程独立初始化OCR
-    ocr = PaddleOCR(use_angle_cls=True, lang='ch', use_gpu=False, show_log=False)
+    ocr = PaddleOCR(use_angle_cls=True, lang='ch', show_log=False)
     
     try:
         # 获取单页PDF
@@ -359,7 +358,7 @@ def process_single_pdf_multiprocess(pdf_file, boxes, manual_cores=None):
             pd.DataFrame(valid_records).to_excel(out_file, index=False)
         
         print(f"\n{'─'*60}")
-        print(f"✓ {pdf_name} 处理完成")
+        print(f"[OK] {pdf_name} 处理完成")
         print(f"  页数: {page_cnt}")
         print(f"  耗时: {elapsed_time:.1f}秒")
         print(f"  速度: {page_cnt/elapsed_time:.2f}页/秒")
@@ -375,7 +374,7 @@ def process_single_pdf_multiprocess(pdf_file, boxes, manual_cores=None):
         }
         
     except Exception as e:
-        print(f"\n✗ 处理 {pdf_file} 时出错: {str(e)}")
+        print(f"[FAIL] 处理 {pdf_file} 时出错: {str(e)}")
         return {
             'file': pdf_file,
             'pages': 0,
@@ -465,7 +464,7 @@ if __name__ == "__main__":
     print(f"\n详细结果:")
     
     for i, result in enumerate(results, 1):
-        status = "✓" if result['success'] else "✗"
+        status = "[OK]" if result['success'] else "[FAIL]"
         if result['success']:
             print(f"  {i}. {status} {result['file']} - {result['pages']}页, {result['time']:.1f}秒")
         else:
